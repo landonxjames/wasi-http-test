@@ -1,0 +1,33 @@
+package wasm-version-tests:component;
+
+interface clients { 
+  //If you are creating new clients implement them inside of this interface
+
+  resource wasm-version-tests-client {
+    constructor();
+    hello-world: func() -> string;
+  }
+
+}
+
+interface events { 
+  //If you are creating a new event type implement it inside this interface
+
+  record foo {
+    bar: string,
+  }
+
+  resource wasm-version-tests-event {
+    constructor();
+    //Note that event resources must contain a parse function that can transform
+    //the raw input to a handler into the in-memory representation of the event
+    parse: func(input: string) -> result<foo, string>;
+  }
+
+  
+}
+
+world wasm-version-tests { 
+  export clients;
+  export events;
+}

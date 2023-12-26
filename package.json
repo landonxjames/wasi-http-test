@@ -1,0 +1,46 @@
+{
+  "name": "wasmVersionTests",
+  "version": "0.0.1",
+  "description": "wasmVersionTests ACT Component",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./component.js",
+      "import": "./component.js",
+      "default": "./component.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc && npm run build:rust && npm run build:wasm-component && npm run copy:wasm-component && npm run copy:package.json && npm run build:wasm-js-bindings",
+    "build:rust": "cargo build --target=wasm32-unknown-unknown --release --manifest-path ./runtime/Cargo.toml",
+    "build:wasm-component": "wasm-tools component new ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests.wasm -o ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm",
+    "build:wasm-js-bindings": "npx jco transpile ./dist/wasm/wasm_version_tests_component.wasm -o ./src/generated-js-runtime-bindings",
+    "copy:wasm-component": "run-script-os",
+    "copy:wasm-component:windows": "mkdir -force \"./dist/wasm/\" && cp -R ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm ./dist/wasm/",
+    "copy:wasm-component:default": "mkdir -p ./dist/wasm/ && cp -R ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm ./dist/wasm/",
+    "copy:package.json": "cp ./package.json ./dist/",
+    "test": "vitest --run",
+    "test:py": "python3 -m pytest src/test_component_no_resources.py",
+    "watch": "tsc -w",
+    "build-no-resources": "tsc && npm run build:rust-no-resources && npm run build:wasm-component-no-resources && npm run copy:wasm-component-no-resources && npm run copy:package.json && npm run build:wasm-py-bindings-no-resources",
+    "build:rust-no-resources": "cargo build --target=wasm32-unknown-unknown --release --manifest-path ./runtime-no-resources/Cargo.toml",
+    "build:wasm-component-no-resources": "wasm-tools component new ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources.wasm -o ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources_component.wasm",
+    "build:wasm-py-bindings-no-resources": "python3 -m wasmtime.bindgen ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources_component.wasm --out-dir ./src/generated_py_runtime_no_resources_bindings/pybind/",
+    "copy:wasm-component-no-resources": "run-script-os",
+    "copy:wasm-component-no-resources:windows": "mkdir -force \"./dist/wasm/\" && cp -R ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources_component.wasm ./dist/wasm/",
+    "copy:wasm-component-no-resources:default": "mkdir -p ./dist/wasm/ && cp -R ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources_component.wasm ./dist/wasm/"
+  },
+  "devDependencies": {
+    "@bytecodealliance/jco": "^0.12.3",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^18.7.18",
+    "aws-cdk": "^2.94.0",
+    "cross-env": "^7.0.3",
+    "execa": "^8.0.1",
+    "run-script-os": "^1.1.6",
+    "tsx": "^4.7.0",
+    "typescript": "=5.1.3",
+    "vitest": "^1.1.0"
+  }
+}

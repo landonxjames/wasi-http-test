@@ -1,0 +1,6 @@
+node_modules/
+.vscode/
+dist/
+.pytest_cache/
+src/__pycache__/
+src/.pytest_cache/

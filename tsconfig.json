@@ -1,0 +1,21 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "declaration": true,
+    "strict": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "dist",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "node_modules/",
+    "src/**/*.test.ts",
+    "src/generated-js-runtime-bindings/**/*"
+  ]
+}
