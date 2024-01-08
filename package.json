@@ -13,12 +13,12 @@
   },
   "scripts": {
     "build": "tsc && npm run build:rust && npm run build:wasm-component && npm run copy:wasm-component && npm run copy:package.json && npm run build:wasm-js-bindings",
-    "build:rust": "cargo build --target=wasm32-unknown-unknown --release --manifest-path ./runtime/Cargo.toml",
-    "build:wasm-component": "wasm-tools component new ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests.wasm -o ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm",
-    "build:wasm-js-bindings": "npx jco transpile ./dist/wasm/wasm_version_tests_component.wasm -o ./src/generated-js-runtime-bindings",
+    "build:rust": "cargo build --target=wasm32-wasi --release --manifest-path ./runtime/Cargo.toml",
+    "build:wasm-component": "wasm-tools component new ./runtime/target/wasm32-wasi/release/wasm_version_tests.wasm -o ./runtime/target/wasm32-wasi/release/wasm_version_tests_component.wasm --adapt ./runtime/wasi_snapshot_preview1.reactor.wasm",
+    "build:wasm-js-bindings": "npx jco transpile ./dist/wasm/wasm_version_tests_component.wasm -o ./src/generated-js-runtime-bindings --no-namespaced-exports",
     "copy:wasm-component": "run-script-os",
-    "copy:wasm-component:windows": "mkdir -force \"./dist/wasm/\" && cp -R ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm ./dist/wasm/",
-    "copy:wasm-component:default": "mkdir -p ./dist/wasm/ && cp -R ./runtime/target/wasm32-unknown-unknown/release/wasm_version_tests_component.wasm ./dist/wasm/",
+    "copy:wasm-component:windows": "mkdir -force \"./dist/wasm/\" && cp -R ./runtime/target/wasm32-wasi/release/wasm_version_tests_component.wasm ./dist/wasm/",
+    "copy:wasm-component:default": "mkdir -p ./dist/wasm/ && cp -R ./runtime/target/wasm32-wasi/release/wasm_version_tests_component.wasm ./dist/wasm/",
     "copy:package.json": "cp ./package.json ./dist/",
     "test": "vitest --run",
     "test:py": "python3 -m pytest src/test_component_no_resources.py",
@@ -32,7 +32,8 @@
     "copy:wasm-component-no-resources:default": "mkdir -p ./dist/wasm/ && cp -R ./runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources_component.wasm ./dist/wasm/"
   },
   "devDependencies": {
-    "@bytecodealliance/jco": "^0.12.3",
+    "@bytecodealliance/jco": "^0.14.2",
+    "@bytecodealliance/preview2-shim": "^0.14.2",
     "@types/jest": "^29.5.4",
     "@types/node": "^18.7.18",
     "aws-cdk": "^2.94.0",

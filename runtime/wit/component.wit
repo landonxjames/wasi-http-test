@@ -1,4 +1,5 @@
 package wasm-version-tests:component;
+use wasi:http/outgoing-handler@0.2.0-rc-2023-12-05;
 
 interface clients { 
   //If you are creating new clients implement them inside of this interface
@@ -11,6 +12,7 @@ interface clients {
 }
 
 interface events { 
+use wasi:http/types@0.2.0-rc-2023-12-05.{incoming-response, error-code};
   //If you are creating a new event type implement it inside this interface
 
   record foo {
@@ -21,13 +23,14 @@ interface events {
     constructor();
     //Note that event resources must contain a parse function that can transform
     //the raw input to a handler into the in-memory representation of the event
-    parse: func(input: string) -> result<foo, string>;
+    parse: func(input: string) -> result<incoming-response, error-code>;
   }
 
   
 }
 
 world wasm-version-tests { 
+  import wasi:http/outgoing-handler@0.2.0-rc-2023-12-05;
   export clients;
   export events;
 }
