@@ -1,8 +1,9 @@
 export namespace WasiHttpTypes {
   export { Fields };
   export { OutgoingRequest };
-  export { FutureIncomingResponse };
   export { IncomingResponse };
+  export { IncomingBody };
+  export { FutureIncomingResponse };
   export { RequestOptions };
 }
 export type FieldKey = string;
@@ -29,6 +30,8 @@ export interface SchemeOther {
   tag: 'other',
   val: string,
 }
+import type { InputStream } from '../interfaces/wasi-io-streams.js';
+export { InputStream };
 import type { Pollable } from '../interfaces/wasi-io-poll.js';
 export { Pollable };
 export interface DnsErrorPayload {
@@ -178,19 +181,20 @@ export interface ErrorCodeInternalError {
 }
 export type Result<T, E> = { tag: 'ok', val: T } | { tag: 'err', val: E };
 
+export class IncomingBody {
+  stream(): InputStream;
+}
+
 export class FutureIncomingResponse {
   subscribe(): Pollable;
   get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
 }
 
 export class IncomingResponse {
+  consume(): IncomingBody;
 }
 
 export class RequestOptions {
-}
-
-export class Fields {
-  static fromList(entries: [FieldKey, FieldValue][]): Fields;
 }
 
 export class OutgoingRequest {
@@ -201,4 +205,8 @@ export class OutgoingRequest {
   setScheme(scheme: Scheme | undefined): void;
   authority(): string | undefined;
   setAuthority(authority: string | undefined): void;
+}
+
+export class Fields {
+  static fromList(entries: [FieldKey, FieldValue][]): Fields;
 }

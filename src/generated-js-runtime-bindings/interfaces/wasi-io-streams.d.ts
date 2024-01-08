@@ -1,6 +1,6 @@
 export namespace WasiIoStreams {
-  export { OutputStream };
   export { InputStream };
+  export { OutputStream };
 }
 import type { Error } from '../interfaces/wasi-io-error.js';
 export { Error };
@@ -21,4 +21,5 @@ export class OutputStream {
 }
 
 export class InputStream {
+  blockingRead(len: bigint): Uint8Array;
 }

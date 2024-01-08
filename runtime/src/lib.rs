@@ -14,8 +14,8 @@ use exports::wasm_version_tests::component::clients::GuestWasmVersionTestsClient
 use exports::wasm_version_tests::component::events::GuestWasmVersionTestsEvent;
 use wasi::http::outgoing_handler::handle;
 use wasi::http::types::{
-    ErrorCode, Fields, FutureIncomingResponse, IncomingResponse, OutgoingRequest, RequestOptions,
-    Scheme,
+    ErrorCode, Fields, FutureIncomingResponse, IncomingBody, IncomingResponse, OutgoingRequest,
+    RequestOptions, Scheme,
 };
 
 //Impl the traits from your .wit file on these structs
@@ -60,7 +60,23 @@ impl GuestWasmVersionTestsEvent for WasmVersionTestsEvents {
         let ready_req = sub_req.ready();
         println!("REQ READY: {}", ready_req);
 
-        inc_resp.get().unwrap().unwrap()
+        let final_resp = inc_resp.get().unwrap().unwrap().unwrap();
+        let body = final_resp.consume().unwrap();
+        let body_stream = body.stream().unwrap();
+        let mut full_bytes: Vec<u8> = Vec::new();
+        while let Ok(mut stream_bytes) = body_stream.blocking_read(u64::MAX) {
+            full_bytes.append(stream_bytes.as_mut())
+        }
+        println!("BODY BYTES: {:#?}", full_bytes);
+        println!("BODY STR: {:#?}", std::str::from_utf8(&full_bytes).unwrap());
+
+        // let body_fut = IncomingBody::finish(body);
+        // let body_fut_sub = body_fut.subscribe();
+        // body_fut_sub.block();
+        // let body = body_fut.get();
+        // println!("THE BODY: {:#?}", body);
+        //.finish().subscribe().block()
+        Ok(final_resp)
     }
 
     fn new() -> Self {

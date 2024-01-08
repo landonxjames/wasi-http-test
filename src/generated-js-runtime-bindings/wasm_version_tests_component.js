@@ -13,6 +13,7 @@ const { Descriptor,
 const { handle } = outgoingHandler;
 const { Fields,
   FutureIncomingResponse,
+  IncomingBody,
   IncomingResponse,
   OutgoingRequest,
   RequestOptions } = types$1;
@@ -111,7 +112,7 @@ function utf8Encode(s, realloc, memory) {
 
 let exports0;
 
-function trampoline0(arg0) {
+function trampoline2(arg0) {
   var handle1 = arg0;
   var rsc0 = handleTable4.get(handle1).rep;
   handleTable4.delete(handle1);
@@ -124,9 +125,9 @@ function trampoline0(arg0) {
   return handle2;
 }
 
-function trampoline1(arg0) {
+function trampoline3(arg0) {
   var handle1 = arg0;
-  var rsc0 = handleTable6.get(handle1).rep;
+  var rsc0 = handleTable8.get(handle1).rep;
   const ret = FutureIncomingResponse.prototype.subscribe.call(rsc0);
   if (!(ret instanceof Pollable)) {
     throw new Error('Resource error: Not a valid "Pollable" resource.');
@@ -136,13 +137,13 @@ function trampoline1(arg0) {
   return handle2;
 }
 
-function trampoline3(arg0) {
+function trampoline4(arg0) {
   var handle1 = arg0;
   var rsc0 = handleTable0.get(handle1).rep;
   Pollable.prototype.block.call(rsc0);
 }
 
-function trampoline4(arg0) {
+function trampoline5(arg0) {
   var handle1 = arg0;
   var rsc0 = handleTable0.get(handle1).rep;
   const ret = Pollable.prototype.ready.call(rsc0);
@@ -150,17 +151,17 @@ function trampoline4(arg0) {
 }
 let exports1;
 
-function trampoline12() {
+function trampoline13() {
   const ret = getStderr();
   if (!(ret instanceof OutputStream)) {
     throw new Error('Resource error: Not a valid "OutputStream" resource.');
   }
-  var handle0 = handleCnt2++;
-  handleTable2.set(handle0, { rep: ret, own: true });
+  var handle0 = handleCnt3++;
+  handleTable3.set(handle0, { rep: ret, own: true });
   return handle0;
 }
 
-function trampoline13(arg0) {
+function trampoline14(arg0) {
   let variant0;
   switch (arg0) {
     case 0: {
@@ -184,28 +185,28 @@ function trampoline13(arg0) {
   exit(variant0);
 }
 
-function trampoline14() {
+function trampoline15() {
   const ret = getStdin();
   if (!(ret instanceof InputStream)) {
     throw new Error('Resource error: Not a valid "InputStream" resource.');
-  }
-  var handle0 = handleCnt3++;
-  handleTable3.set(handle0, { rep: ret, own: true });
-  return handle0;
-}
-
-function trampoline15() {
-  const ret = getStdout();
-  if (!(ret instanceof OutputStream)) {
-    throw new Error('Resource error: Not a valid "OutputStream" resource.');
   }
   var handle0 = handleCnt2++;
   handleTable2.set(handle0, { rep: ret, own: true });
   return handle0;
 }
+
+function trampoline16() {
+  const ret = getStdout();
+  if (!(ret instanceof OutputStream)) {
+    throw new Error('Resource error: Not a valid "OutputStream" resource.');
+  }
+  var handle0 = handleCnt3++;
+  handleTable3.set(handle0, { rep: ret, own: true });
+  return handle0;
+}
 let exports2;
 
-function trampoline16(arg0, arg1, arg2) {
+function trampoline17(arg0, arg1, arg2) {
   var len2 = arg1;
   var base2 = arg0;
   var result2 = [];
@@ -268,7 +269,7 @@ function trampoline16(arg0, arg1, arg2) {
 }
 let memory0;
 
-function trampoline17(arg0, arg1) {
+function trampoline18(arg0, arg1) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   const ret = OutgoingRequest.prototype.pathWithQuery.call(rsc0);
@@ -286,7 +287,7 @@ function trampoline17(arg0, arg1) {
 }
 let realloc0;
 
-function trampoline18(arg0, arg1, arg2, arg3) {
+function trampoline19(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   let variant3;
@@ -332,7 +333,7 @@ function trampoline18(arg0, arg1, arg2, arg3) {
   return variant4_0;
 }
 
-function trampoline19(arg0, arg1) {
+function trampoline20(arg0, arg1) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   const ret = OutgoingRequest.prototype.scheme.call(rsc0);
@@ -368,7 +369,7 @@ function trampoline19(arg0, arg1) {
   }
 }
 
-function trampoline20(arg0, arg1, arg2, arg3, arg4) {
+function trampoline21(arg0, arg1, arg2, arg3, arg4) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   let variant4;
@@ -439,7 +440,7 @@ function trampoline20(arg0, arg1, arg2, arg3, arg4) {
   return variant5_0;
 }
 
-function trampoline21(arg0, arg1) {
+function trampoline22(arg0, arg1) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   const ret = OutgoingRequest.prototype.authority.call(rsc0);
@@ -456,7 +457,7 @@ function trampoline21(arg0, arg1) {
   }
 }
 
-function trampoline22(arg0, arg1, arg2, arg3) {
+function trampoline23(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   let variant3;
@@ -502,9 +503,75 @@ function trampoline22(arg0, arg1, arg2, arg3) {
   return variant4_0;
 }
 
-function trampoline23(arg0, arg1) {
+function trampoline24(arg0, arg1) {
   var handle1 = arg0;
   var rsc0 = handleTable6.get(handle1).rep;
+  let ret;
+  try {
+    ret = { tag: 'ok', val: IncomingResponse.prototype.consume.call(rsc0) };
+  } catch (e) {
+    ret = { tag: 'err', val: getErrorPayload(e) };
+  }
+  var variant3 = ret;
+  switch (variant3.tag) {
+    case 'ok': {
+      const e = variant3.val;
+      dataView(memory0).setInt8(arg1 + 0, 0, true);
+      if (!(e instanceof IncomingBody)) {
+        throw new Error('Resource error: Not a valid "IncomingBody" resource.');
+      }
+      var handle2 = handleCnt7++;
+      handleTable7.set(handle2, { rep: e, own: true });
+      dataView(memory0).setInt32(arg1 + 4, handle2, true);
+      break;
+    }
+    case 'err': {
+      const e = variant3.val;
+      dataView(memory0).setInt8(arg1 + 0, 1, true);
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant specified for result');
+    }
+  }
+}
+
+function trampoline25(arg0, arg1) {
+  var handle1 = arg0;
+  var rsc0 = handleTable7.get(handle1).rep;
+  let ret;
+  try {
+    ret = { tag: 'ok', val: IncomingBody.prototype.stream.call(rsc0) };
+  } catch (e) {
+    ret = { tag: 'err', val: getErrorPayload(e) };
+  }
+  var variant3 = ret;
+  switch (variant3.tag) {
+    case 'ok': {
+      const e = variant3.val;
+      dataView(memory0).setInt8(arg1 + 0, 0, true);
+      if (!(e instanceof InputStream)) {
+        throw new Error('Resource error: Not a valid "InputStream" resource.');
+      }
+      var handle2 = handleCnt2++;
+      handleTable2.set(handle2, { rep: e, own: true });
+      dataView(memory0).setInt32(arg1 + 4, handle2, true);
+      break;
+    }
+    case 'err': {
+      const e = variant3.val;
+      dataView(memory0).setInt8(arg1 + 0, 1, true);
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant specified for result');
+    }
+  }
+}
+
+function trampoline26(arg0, arg1) {
+  var handle1 = arg0;
+  var rsc0 = handleTable8.get(handle1).rep;
   const ret = FutureIncomingResponse.prototype.get.call(rsc0);
   var variant43 = ret;
   if (variant43 === null || variant43=== undefined) {
@@ -525,8 +592,8 @@ function trampoline23(arg0, arg1) {
             if (!(e instanceof IncomingResponse)) {
               throw new Error('Resource error: Not a valid "IncomingResponse" resource.');
             }
-            var handle2 = handleCnt7++;
-            handleTable7.set(handle2, { rep: e, own: true });
+            var handle2 = handleCnt6++;
+            handleTable6.set(handle2, { rep: e, own: true });
             dataView(memory0).setInt32(arg1 + 24, handle2, true);
             break;
           }
@@ -938,7 +1005,62 @@ function trampoline23(arg0, arg1) {
   }
 }
 
-function trampoline24(arg0, arg1, arg2, arg3) {
+function trampoline27(arg0, arg1, arg2) {
+  var handle1 = arg0;
+  var rsc0 = handleTable2.get(handle1).rep;
+  let ret;
+  try {
+    ret = { tag: 'ok', val: InputStream.prototype.blockingRead.call(rsc0, BigInt.asUintN(64, arg1)) };
+  } catch (e) {
+    ret = { tag: 'err', val: getErrorPayload(e) };
+  }
+  var variant5 = ret;
+  switch (variant5.tag) {
+    case 'ok': {
+      const e = variant5.val;
+      dataView(memory0).setInt8(arg2 + 0, 0, true);
+      var val2 = e;
+      var len2 = val2.byteLength;
+      var ptr2 = realloc0(0, 0, 1, len2 * 1);
+      var src2 = new Uint8Array(val2.buffer || val2, val2.byteOffset, len2 * 1);
+      (new Uint8Array(memory0.buffer, ptr2, len2 * 1)).set(src2);
+      dataView(memory0).setInt32(arg2 + 8, len2, true);
+      dataView(memory0).setInt32(arg2 + 4, ptr2, true);
+      break;
+    }
+    case 'err': {
+      const e = variant5.val;
+      dataView(memory0).setInt8(arg2 + 0, 1, true);
+      var variant4 = e;
+      switch (variant4.tag) {
+        case 'last-operation-failed': {
+          const e = variant4.val;
+          dataView(memory0).setInt8(arg2 + 4, 0, true);
+          if (!(e instanceof Error$1)) {
+            throw new Error('Resource error: Not a valid "Error" resource.');
+          }
+          var handle3 = handleCnt1++;
+          handleTable1.set(handle3, { rep: e, own: true });
+          dataView(memory0).setInt32(arg2 + 8, handle3, true);
+          break;
+        }
+        case 'closed': {
+          dataView(memory0).setInt8(arg2 + 4, 1, true);
+          break;
+        }
+        default: {
+          throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant4.tag)}\` (received \`${variant4}\`) specified for \`StreamError\``);
+        }
+      }
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant specified for result');
+    }
+  }
+}
+
+function trampoline28(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
   var rsc0 = handleTable5.get(handle1).rep;
   handleTable5.delete(handle1);
@@ -950,8 +1072,8 @@ function trampoline24(arg0, arg1, arg2, arg3) {
     }
     case 1: {
       var handle3 = arg2;
-      var rsc2 = handleTable8.get(handle3).rep;
-      handleTable8.delete(handle3);
+      var rsc2 = handleTable9.get(handle3).rep;
+      handleTable9.delete(handle3);
       variant4 = rsc2;
       break;
     }
@@ -973,8 +1095,8 @@ function trampoline24(arg0, arg1, arg2, arg3) {
       if (!(e instanceof FutureIncomingResponse)) {
         throw new Error('Resource error: Not a valid "FutureIncomingResponse" resource.');
       }
-      var handle5 = handleCnt6++;
-      handleTable6.set(handle5, { rep: e, own: true });
+      var handle5 = handleCnt8++;
+      handleTable8.set(handle5, { rep: e, own: true });
       dataView(memory0).setInt32(arg3 + 8, handle5, true);
       break;
     }
@@ -1374,7 +1496,7 @@ function trampoline24(arg0, arg1, arg2, arg3) {
   }
 }
 
-function trampoline25(arg0) {
+function trampoline29(arg0) {
   const ret = getDirectories();
   var vec3 = ret;
   var len3 = vec3.length;
@@ -1385,8 +1507,8 @@ function trampoline25(arg0) {
     if (!(tuple0_0 instanceof Descriptor)) {
       throw new Error('Resource error: Not a valid "Descriptor" resource.');
     }
-    var handle1 = handleCnt9++;
-    handleTable9.set(handle1, { rep: tuple0_0, own: true });
+    var handle1 = handleCnt10++;
+    handleTable10.set(handle1, { rep: tuple0_0, own: true });
     dataView(memory0).setInt32(base + 0, handle1, true);
     var ptr2 = utf8Encode(tuple0_1, realloc1, memory0);
     var len2 = utf8EncodedLen;
@@ -1398,9 +1520,9 @@ function trampoline25(arg0) {
 }
 let realloc1;
 
-function trampoline26(arg0, arg1, arg2) {
+function trampoline30(arg0, arg1, arg2) {
   var handle1 = arg0;
-  var rsc0 = handleTable9.get(handle1).rep;
+  var rsc0 = handleTable10.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: Descriptor.prototype.writeViaStream.call(rsc0, BigInt.asUintN(64, arg1)) };
@@ -1415,8 +1537,8 @@ function trampoline26(arg0, arg1, arg2) {
       if (!(e instanceof OutputStream)) {
         throw new Error('Resource error: Not a valid "OutputStream" resource.');
       }
-      var handle2 = handleCnt2++;
-      handleTable2.set(handle2, { rep: e, own: true });
+      var handle2 = handleCnt3++;
+      handleTable3.set(handle2, { rep: e, own: true });
       dataView(memory0).setInt32(arg2 + 4, handle2, true);
       break;
     }
@@ -1591,9 +1713,9 @@ function trampoline26(arg0, arg1, arg2) {
   }
 }
 
-function trampoline27(arg0, arg1) {
+function trampoline31(arg0, arg1) {
   var handle1 = arg0;
-  var rsc0 = handleTable9.get(handle1).rep;
+  var rsc0 = handleTable10.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: Descriptor.prototype.appendViaStream.call(rsc0) };
@@ -1608,8 +1730,8 @@ function trampoline27(arg0, arg1) {
       if (!(e instanceof OutputStream)) {
         throw new Error('Resource error: Not a valid "OutputStream" resource.');
       }
-      var handle2 = handleCnt2++;
-      handleTable2.set(handle2, { rep: e, own: true });
+      var handle2 = handleCnt3++;
+      handleTable3.set(handle2, { rep: e, own: true });
       dataView(memory0).setInt32(arg1 + 4, handle2, true);
       break;
     }
@@ -1784,9 +1906,9 @@ function trampoline27(arg0, arg1) {
   }
 }
 
-function trampoline28(arg0, arg1) {
+function trampoline32(arg0, arg1) {
   var handle1 = arg0;
-  var rsc0 = handleTable9.get(handle1).rep;
+  var rsc0 = handleTable10.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: Descriptor.prototype.getType.call(rsc0) };
@@ -2015,9 +2137,9 @@ function trampoline28(arg0, arg1) {
   }
 }
 
-function trampoline29(arg0, arg1) {
+function trampoline33(arg0, arg1) {
   var handle1 = arg0;
-  var rsc0 = handleTable9.get(handle1).rep;
+  var rsc0 = handleTable10.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: Descriptor.prototype.stat.call(rsc0) };
@@ -2279,7 +2401,7 @@ function trampoline29(arg0, arg1) {
   }
 }
 
-function trampoline30(arg0, arg1) {
+function trampoline34(arg0, arg1) {
   var handle1 = arg0;
   var rsc0 = handleTable1.get(handle1).rep;
   const ret = filesystemErrorCode(rsc0);
@@ -2452,9 +2574,9 @@ function trampoline30(arg0, arg1) {
   }
 }
 
-function trampoline31(arg0, arg1) {
+function trampoline35(arg0, arg1) {
   var handle1 = arg0;
-  var rsc0 = handleTable2.get(handle1).rep;
+  var rsc0 = handleTable3.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: OutputStream.prototype.checkWrite.call(rsc0) };
@@ -2501,9 +2623,9 @@ function trampoline31(arg0, arg1) {
   }
 }
 
-function trampoline32(arg0, arg1, arg2, arg3) {
+function trampoline36(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
-  var rsc0 = handleTable2.get(handle1).rep;
+  var rsc0 = handleTable3.get(handle1).rep;
   var ptr2 = arg1;
   var len2 = arg2;
   var result2 = new Uint8Array(memory0.buffer.slice(ptr2, ptr2 + len2 * 1));
@@ -2552,9 +2674,9 @@ function trampoline32(arg0, arg1, arg2, arg3) {
   }
 }
 
-function trampoline33(arg0, arg1, arg2, arg3) {
+function trampoline37(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
-  var rsc0 = handleTable2.get(handle1).rep;
+  var rsc0 = handleTable3.get(handle1).rep;
   var ptr2 = arg1;
   var len2 = arg2;
   var result2 = new Uint8Array(memory0.buffer.slice(ptr2, ptr2 + len2 * 1));
@@ -2603,9 +2725,9 @@ function trampoline33(arg0, arg1, arg2, arg3) {
   }
 }
 
-function trampoline34(arg0, arg1) {
+function trampoline38(arg0, arg1) {
   var handle1 = arg0;
-  var rsc0 = handleTable2.get(handle1).rep;
+  var rsc0 = handleTable3.get(handle1).rep;
   let ret;
   try {
     ret = { tag: 'ok', val: OutputStream.prototype.blockingFlush.call(rsc0) };
@@ -2651,7 +2773,7 @@ function trampoline34(arg0, arg1) {
   }
 }
 
-function trampoline35(arg0) {
+function trampoline39(arg0) {
   const ret = getEnvironment();
   var vec3 = ret;
   var len3 = vec3.length;
@@ -2674,37 +2796,17 @@ function trampoline35(arg0) {
 let exports3;
 let postReturn0;
 let postReturn1;
-function trampoline2(rep) {
+function trampoline0(rep) {
   const handle = handleCnt11++;
   handleTable11.set(handle, { rep, own: true });
   return handle;
 }
-function trampoline5(handle) {
-  const handleEntry = handleTable0.get(handle);
-  if (!handleEntry) {
-    throw new Error(`Resource error: Invalid handle ${handle}`);
-  }
-  handleTable0.delete(handle);
-  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
-    handleEntry.rep[symbolDispose]();
-  }
-}
-function trampoline6(handle) {
-  const handleEntry = handleTable6.get(handle);
-  if (!handleEntry) {
-    throw new Error(`Resource error: Invalid handle ${handle}`);
-  }
-  handleTable6.delete(handle);
-  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
-    handleEntry.rep[symbolDispose]();
-  }
-}
-function trampoline7(rep) {
-  const handle = handleCnt10++;
-  handleTable10.set(handle, { rep, own: true });
+function trampoline1(rep) {
+  const handle = handleCnt12++;
+  handleTable12.set(handle, { rep, own: true });
   return handle;
 }
-function trampoline8(handle) {
+function trampoline6(handle) {
   const handleEntry = handleTable1.get(handle);
   if (!handleEntry) {
     throw new Error(`Resource error: Invalid handle ${handle}`);
@@ -2714,17 +2816,7 @@ function trampoline8(handle) {
     handleEntry.rep[symbolDispose]();
   }
 }
-function trampoline9(handle) {
-  const handleEntry = handleTable3.get(handle);
-  if (!handleEntry) {
-    throw new Error(`Resource error: Invalid handle ${handle}`);
-  }
-  handleTable3.delete(handle);
-  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
-    handleEntry.rep[symbolDispose]();
-  }
-}
-function trampoline10(handle) {
+function trampoline7(handle) {
   const handleEntry = handleTable2.get(handle);
   if (!handleEntry) {
     throw new Error(`Resource error: Invalid handle ${handle}`);
@@ -2734,12 +2826,52 @@ function trampoline10(handle) {
     handleEntry.rep[symbolDispose]();
   }
 }
-function trampoline11(handle) {
-  const handleEntry = handleTable9.get(handle);
+function trampoline8(handle) {
+  const handleEntry = handleTable7.get(handle);
   if (!handleEntry) {
     throw new Error(`Resource error: Invalid handle ${handle}`);
   }
-  handleTable9.delete(handle);
+  handleTable7.delete(handle);
+  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
+    handleEntry.rep[symbolDispose]();
+  }
+}
+function trampoline9(handle) {
+  const handleEntry = handleTable0.get(handle);
+  if (!handleEntry) {
+    throw new Error(`Resource error: Invalid handle ${handle}`);
+  }
+  handleTable0.delete(handle);
+  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
+    handleEntry.rep[symbolDispose]();
+  }
+}
+function trampoline10(handle) {
+  const handleEntry = handleTable8.get(handle);
+  if (!handleEntry) {
+    throw new Error(`Resource error: Invalid handle ${handle}`);
+  }
+  handleTable8.delete(handle);
+  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
+    handleEntry.rep[symbolDispose]();
+  }
+}
+function trampoline11(handle) {
+  const handleEntry = handleTable3.get(handle);
+  if (!handleEntry) {
+    throw new Error(`Resource error: Invalid handle ${handle}`);
+  }
+  handleTable3.delete(handle);
+  if (handleEntry.own && handleEntry.rep[symbolDispose]) {
+    handleEntry.rep[symbolDispose]();
+  }
+}
+function trampoline12(handle) {
+  const handleEntry = handleTable10.get(handle);
+  if (!handleEntry) {
+    throw new Error(`Resource error: Invalid handle ${handle}`);
+  }
+  handleTable10.delete(handle);
   if (handleEntry.own && handleEntry.rep[symbolDispose]) {
     handleEntry.rep[symbolDispose]();
   }
@@ -2750,12 +2882,12 @@ class WasmVersionTestsClient{
     const ret = exports1['wasm-version-tests:component/clients#[constructor]wasm-version-tests-client']();
     var handle1 = ret;
     var rsc0 = new.target === WasmVersionTestsClient ? this : Object.create(WasmVersionTestsClient.prototype);
-    var rep2 = handleTable10.get(handle1).rep;
+    var rep2 = handleTable11.get(handle1).rep;
     Object.defineProperty(rsc0, resourceHandleSymbol, { writable: true, value: rep2});
-    finalizationRegistry10.register(rsc0, handle1, rsc0);
+    finalizationRegistry11.register(rsc0, handle1, rsc0);
     Object.defineProperty(rsc0, symbolDispose, { writable: true, value: function () {} });
     
-    handleTable10.delete(handle1);
+    handleTable11.delete(handle1);
     return rsc0;
   }
 }
@@ -2770,7 +2902,7 @@ WasmVersionTestsClient.prototype.helloWorld = function helloWorld() {
   }
   
   const ret = exports1['wasm-version-tests:component/clients#[method]wasm-version-tests-client.hello-world'](handle0);
-  if (handleTable10.get(handle0)) {
+  if (handleTable11.get(handle0)) {
     throw new Error('Resource error: borrows were not dropped');
   }
   var ptr1 = dataView(memory0).getInt32(ret + 0, true);
@@ -2785,12 +2917,12 @@ class WasmVersionTestsEvent{
     const ret = exports1['wasm-version-tests:component/events#[constructor]wasm-version-tests-event']();
     var handle1 = ret;
     var rsc0 = new.target === WasmVersionTestsEvent ? this : Object.create(WasmVersionTestsEvent.prototype);
-    var rep2 = handleTable11.get(handle1).rep;
+    var rep2 = handleTable12.get(handle1).rep;
     Object.defineProperty(rsc0, resourceHandleSymbol, { writable: true, value: rep2});
-    finalizationRegistry11.register(rsc0, handle1, rsc0);
+    finalizationRegistry12.register(rsc0, handle1, rsc0);
     Object.defineProperty(rsc0, symbolDispose, { writable: true, value: function () {} });
     
-    handleTable11.delete(handle1);
+    handleTable12.delete(handle1);
     return rsc0;
   }
 }
@@ -2807,15 +2939,15 @@ WasmVersionTestsEvent.prototype.parse = function parse(arg1) {
   var ptr1 = utf8Encode(arg1, realloc0, memory0);
   var len1 = utf8EncodedLen;
   const ret = exports1['wasm-version-tests:component/events#[method]wasm-version-tests-event.parse'](handle0, ptr1, len1);
-  if (handleTable11.get(handle0)) {
+  if (handleTable12.get(handle0)) {
     throw new Error('Resource error: borrows were not dropped');
   }
   let variant36;
   switch (dataView(memory0).getUint8(ret + 0, true)) {
     case 0: {
       var handle3 = dataView(memory0).getInt32(ret + 8, true);
-      var rsc2 = handleTable7.get(handle3).rep;
-      handleTable7.delete(handle3);
+      var rsc2 = handleTable6.get(handle3).rep;
+      handleTable6.delete(handle3);
       variant36= {
         tag: 'ok',
         val: rsc2
@@ -3469,17 +3601,6 @@ const handleTable9= new Map();
 let handleCnt9 = 0;
 const handleTable10= new Map();
 let handleCnt10 = 0;
-const finalizationRegistry10= new FinalizationRegistry(handle => {
-  const handleEntry = handleTable10.get(handle);
-  if (handleEntry) {
-    handleTable10.delete(handle);
-    
-    if (handleEntry.own) {
-      exports0['24'](handleEntry.rep);
-    }
-  }
-});
-
 const handleTable11= new Map();
 let handleCnt11 = 0;
 const finalizationRegistry11= new FinalizationRegistry(handle => {
@@ -3488,7 +3609,20 @@ const finalizationRegistry11= new FinalizationRegistry(handle => {
     handleTable11.delete(handle);
     
     if (handleEntry.own) {
-      exports0['25'](handleEntry.rep);
+      exports0['27'](handleEntry.rep);
+    }
+  }
+});
+
+const handleTable12= new Map();
+let handleCnt12 = 0;
+const finalizationRegistry12= new FinalizationRegistry(handle => {
+  const handleEntry = handleTable12.get(handle);
+  if (handleEntry) {
+    handleTable12.delete(handle);
+    
+    if (handleEntry.own) {
+      exports0['28'](handleEntry.rep);
     }
   }
 });
@@ -3497,42 +3631,52 @@ const finalizationRegistry11= new FinalizationRegistry(handle => {
 const $init = (async() => {
   const module0 = fetchCompile(new URL('./wasm_version_tests_component.core.wasm', import.meta.url));
   const module1 = fetchCompile(new URL('./wasm_version_tests_component.core2.wasm', import.meta.url));
-  const module2 = base64Compile('AGFzbQEAAAABOAlgA39/fwBgAn9/AGAEf39/fwF/YAV/f39/fwF/YAR/f39/AGABfwBgA39+fwBgAn9/AX9gAX8AAxsaAAECAQMBAgEEBQYBAQEBAQQEAQUCBwcICAgEBQFwARoaB4QBGwEwAAABMQABATIAAgEzAAMBNAAEATUABQE2AAYBNwAHATgACAE5AAkCMTAACgIxMQALAjEyAAwCMTMADQIxNAAOAjE1AA8CMTYAEAIxNwARAjE4ABICMTkAEwIyMAAUAjIxABUCMjIAFgIyMwAXAjI0ABgCMjUAGQgkaW1wb3J0cwEACtECGg0AIAAgASACQQARAAALCwAgACABQQERAQALDwAgACABIAIgA0ECEQIACwsAIAAgAUEDEQEACxEAIAAgASACIAMgBEEEEQMACwsAIAAgAUEFEQEACw8AIAAgASACIANBBhECAAsLACAAIAFBBxEBAAsPACAAIAEgAiADQQgRBAALCQAgAEEJEQUACw0AIAAgASACQQoRBgALCwAgACABQQsRAQALCwAgACABQQwRAQALCwAgACABQQ0RAQALCwAgACABQQ4RAQALCwAgACABQQ8RAQALDwAgACABIAIgA0EQEQQACw8AIAAgASACIANBEREEAAsLACAAIAFBEhEBAAsJACAAQRMRBQALDwAgACABIAIgA0EUEQIACwsAIAAgAUEVEQcACwsAIAAgAUEWEQcACwkAIABBFxEIAAsJACAAQRgRCAALCQAgAEEZEQgACwAuCXByb2R1Y2VycwEMcHJvY2Vzc2VkLWJ5AQ13aXQtY29tcG9uZW50BjAuMTguMACcDwRuYW1lABMSd2l0LWNvbXBvbmVudDpzaGltAf8OGgBFaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW3N0YXRpY11maWVsZHMuZnJvbS1saXN0AVVpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bbWV0aG9kXW91dGdvaW5nLXJlcXVlc3QucGF0aC13aXRoLXF1ZXJ5AllpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bbWV0aG9kXW91dGdvaW5nLXJlcXVlc3Quc2V0LXBhdGgtd2l0aC1xdWVyeQNMaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1vdXRnb2luZy1yZXF1ZXN0LnNjaGVtZQRQaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1vdXRnb2luZy1yZXF1ZXN0LnNldC1zY2hlbWUFT2luZGlyZWN0LXdhc2k6aHR0cC90eXBlc0AwLjIuMC1yYy0yMDIzLTEyLTA1LVttZXRob2Rdb3V0Z29pbmctcmVxdWVzdC5hdXRob3JpdHkGU2luZGlyZWN0LXdhc2k6aHR0cC90eXBlc0AwLjIuMC1yYy0yMDIzLTEyLTA1LVttZXRob2Rdb3V0Z29pbmctcmVxdWVzdC5zZXQtYXV0aG9yaXR5B1FpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bbWV0aG9kXWZ1dHVyZS1pbmNvbWluZy1yZXNwb25zZS5nZXQIPmluZGlyZWN0LXdhc2k6aHR0cC9vdXRnb2luZy1oYW5kbGVyQDAuMi4wLXJjLTIwMjMtMTItMDUtaGFuZGxlCUVpbmRpcmVjdC13YXNpOmZpbGVzeXN0ZW0vcHJlb3BlbnNAMC4yLjAtcmMtMjAyMy0xMS0xMC1nZXQtZGlyZWN0b3JpZXMKVmluZGlyZWN0LXdhc2k6ZmlsZXN5c3RlbS90eXBlc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2RdZGVzY3JpcHRvci53cml0ZS12aWEtc3RyZWFtC1dpbmRpcmVjdC13YXNpOmZpbGVzeXN0ZW0vdHlwZXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXWRlc2NyaXB0b3IuYXBwZW5kLXZpYS1zdHJlYW0MTmluZGlyZWN0LXdhc2k6ZmlsZXN5c3RlbS90eXBlc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2RdZGVzY3JpcHRvci5nZXQtdHlwZQ1KaW5kaXJlY3Qtd2FzaTpmaWxlc3lzdGVtL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTEtMTAtW21ldGhvZF1kZXNjcmlwdG9yLnN0YXQOSGluZGlyZWN0LXdhc2k6ZmlsZXN5c3RlbS90eXBlc0AwLjIuMC1yYy0yMDIzLTExLTEwLWZpbGVzeXN0ZW0tZXJyb3ItY29kZQ9OaW5kaXJlY3Qtd2FzaTppby9zdHJlYW1zQDAuMi4wLXJjLTIwMjMtMTEtMTAtW21ldGhvZF1vdXRwdXQtc3RyZWFtLmNoZWNrLXdyaXRlEEhpbmRpcmVjdC13YXNpOmlvL3N0cmVhbXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXW91dHB1dC1zdHJlYW0ud3JpdGURW2luZGlyZWN0LXdhc2k6aW8vc3RyZWFtc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2Rdb3V0cHV0LXN0cmVhbS5ibG9ja2luZy13cml0ZS1hbmQtZmx1c2gSUWluZGlyZWN0LXdhc2k6aW8vc3RyZWFtc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2Rdb3V0cHV0LXN0cmVhbS5ibG9ja2luZy1mbHVzaBNBaW5kaXJlY3Qtd2FzaTpjbGkvZW52aXJvbm1lbnRAMC4yLjAtcmMtMjAyMy0xMi0wNS1nZXQtZW52aXJvbm1lbnQUJWFkYXB0LXdhc2lfc25hcHNob3RfcHJldmlldzEtZmRfd3JpdGUVKGFkYXB0LXdhc2lfc25hcHNob3RfcHJldmlldzEtZW52aXJvbl9nZXQWLmFkYXB0LXdhc2lfc25hcHNob3RfcHJldmlldzEtZW52aXJvbl9zaXplc19nZXQXJmFkYXB0LXdhc2lfc25hcHNob3RfcHJldmlldzEtcHJvY19leGl0GEtkdG9yLVtleHBvcnRdd2FzbS12ZXJzaW9uLXRlc3RzOmNvbXBvbmVudC9jbGllbnRzLXdhc20tdmVyc2lvbi10ZXN0cy1jbGllbnQZSWR0b3ItW2V4cG9ydF13YXNtLXZlcnNpb24tdGVzdHM6Y29tcG9uZW50L2V2ZW50cy13YXNtLXZlcnNpb24tdGVzdHMtZXZlbnQ');
-  const module3 = base64Compile('AGFzbQEAAAABOAlgA39/fwBgAn9/AGAEf39/fwF/YAV/f39/fwF/YAR/f39/AGABfwBgA39+fwBgAn9/AX9gAX8AAqIBGwABMAAAAAExAAEAATIAAgABMwABAAE0AAMAATUAAQABNgACAAE3AAEAATgABAABOQAFAAIxMAAGAAIxMQABAAIxMgABAAIxMwABAAIxNAABAAIxNQABAAIxNgAEAAIxNwAEAAIxOAABAAIxOQAFAAIyMAACAAIyMQAHAAIyMgAHAAIyMwAIAAIyNAAIAAIyNQAIAAgkaW1wb3J0cwFwARoaCSABAEEACxoAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGQAuCXByb2R1Y2VycwEMcHJvY2Vzc2VkLWJ5AQ13aXQtY29tcG9uZW50BjAuMTguMAAcBG5hbWUAFRR3aXQtY29tcG9uZW50OmZpeHVwcw');
+  const module2 = base64Compile('AGFzbQEAAAABOAlgA39/fwBgAn9/AGAEf39/fwF/YAV/f39/fwF/YAN/fn8AYAR/f39/AGABfwBgAn9/AX9gAX8AAx4dAAECAQMBAgEBAQQFBgQBAQEBAQUFAQYCBwcICAgEBQFwAR0dB5MBHgEwAAABMQABATIAAgEzAAMBNAAEATUABQE2AAYBNwAHATgACAE5AAkCMTAACgIxMQALAjEyAAwCMTMADQIxNAAOAjE1AA8CMTYAEAIxNwARAjE4ABICMTkAEwIyMAAUAjIxABUCMjIAFgIyMwAXAjI0ABgCMjUAGQIyNgAaAjI3ABsCMjgAHAgkaW1wb3J0cwEACvcCHQ0AIAAgASACQQARAAALCwAgACABQQERAQALDwAgACABIAIgA0ECEQIACwsAIAAgAUEDEQEACxEAIAAgASACIAMgBEEEEQMACwsAIAAgAUEFEQEACw8AIAAgASACIANBBhECAAsLACAAIAFBBxEBAAsLACAAIAFBCBEBAAsLACAAIAFBCREBAAsNACAAIAEgAkEKEQQACw8AIAAgASACIANBCxEFAAsJACAAQQwRBgALDQAgACABIAJBDREEAAsLACAAIAFBDhEBAAsLACAAIAFBDxEBAAsLACAAIAFBEBEBAAsLACAAIAFBEREBAAsLACAAIAFBEhEBAAsPACAAIAEgAiADQRMRBQALDwAgACABIAIgA0EUEQUACwsAIAAgAUEVEQEACwkAIABBFhEGAAsPACAAIAEgAiADQRcRAgALCwAgACABQRgRBwALCwAgACABQRkRBwALCQAgAEEaEQgACwkAIABBGxEIAAsJACAAQRwRCAALAC4JcHJvZHVjZXJzAQxwcm9jZXNzZWQtYnkBDXdpdC1jb21wb25lbnQGMC4xOC4wAIgRBG5hbWUAExJ3aXQtY29tcG9uZW50OnNoaW0B6xAdAEVpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bc3RhdGljXWZpZWxkcy5mcm9tLWxpc3QBVWluZGlyZWN0LXdhc2k6aHR0cC90eXBlc0AwLjIuMC1yYy0yMDIzLTEyLTA1LVttZXRob2Rdb3V0Z29pbmctcmVxdWVzdC5wYXRoLXdpdGgtcXVlcnkCWWluZGlyZWN0LXdhc2k6aHR0cC90eXBlc0AwLjIuMC1yYy0yMDIzLTEyLTA1LVttZXRob2Rdb3V0Z29pbmctcmVxdWVzdC5zZXQtcGF0aC13aXRoLXF1ZXJ5A0xpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bbWV0aG9kXW91dGdvaW5nLXJlcXVlc3Quc2NoZW1lBFBpbmRpcmVjdC13YXNpOmh0dHAvdHlwZXNAMC4yLjAtcmMtMjAyMy0xMi0wNS1bbWV0aG9kXW91dGdvaW5nLXJlcXVlc3Quc2V0LXNjaGVtZQVPaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1vdXRnb2luZy1yZXF1ZXN0LmF1dGhvcml0eQZTaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1vdXRnb2luZy1yZXF1ZXN0LnNldC1hdXRob3JpdHkHTmluZGlyZWN0LXdhc2k6aHR0cC90eXBlc0AwLjIuMC1yYy0yMDIzLTEyLTA1LVttZXRob2RdaW5jb21pbmctcmVzcG9uc2UuY29uc3VtZQhJaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1pbmNvbWluZy1ib2R5LnN0cmVhbQlRaW5kaXJlY3Qtd2FzaTpodHRwL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTItMDUtW21ldGhvZF1mdXR1cmUtaW5jb21pbmctcmVzcG9uc2UuZ2V0Ck9pbmRpcmVjdC13YXNpOmlvL3N0cmVhbXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXWlucHV0LXN0cmVhbS5ibG9ja2luZy1yZWFkCz5pbmRpcmVjdC13YXNpOmh0dHAvb3V0Z29pbmctaGFuZGxlckAwLjIuMC1yYy0yMDIzLTEyLTA1LWhhbmRsZQxFaW5kaXJlY3Qtd2FzaTpmaWxlc3lzdGVtL3ByZW9wZW5zQDAuMi4wLXJjLTIwMjMtMTEtMTAtZ2V0LWRpcmVjdG9yaWVzDVZpbmRpcmVjdC13YXNpOmZpbGVzeXN0ZW0vdHlwZXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXWRlc2NyaXB0b3Iud3JpdGUtdmlhLXN0cmVhbQ5XaW5kaXJlY3Qtd2FzaTpmaWxlc3lzdGVtL3R5cGVzQDAuMi4wLXJjLTIwMjMtMTEtMTAtW21ldGhvZF1kZXNjcmlwdG9yLmFwcGVuZC12aWEtc3RyZWFtD05pbmRpcmVjdC13YXNpOmZpbGVzeXN0ZW0vdHlwZXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXWRlc2NyaXB0b3IuZ2V0LXR5cGUQSmluZGlyZWN0LXdhc2k6ZmlsZXN5c3RlbS90eXBlc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2RdZGVzY3JpcHRvci5zdGF0EUhpbmRpcmVjdC13YXNpOmZpbGVzeXN0ZW0vdHlwZXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1maWxlc3lzdGVtLWVycm9yLWNvZGUSTmluZGlyZWN0LXdhc2k6aW8vc3RyZWFtc0AwLjIuMC1yYy0yMDIzLTExLTEwLVttZXRob2Rdb3V0cHV0LXN0cmVhbS5jaGVjay13cml0ZRNIaW5kaXJlY3Qtd2FzaTppby9zdHJlYW1zQDAuMi4wLXJjLTIwMjMtMTEtMTAtW21ldGhvZF1vdXRwdXQtc3RyZWFtLndyaXRlFFtpbmRpcmVjdC13YXNpOmlvL3N0cmVhbXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXW91dHB1dC1zdHJlYW0uYmxvY2tpbmctd3JpdGUtYW5kLWZsdXNoFVFpbmRpcmVjdC13YXNpOmlvL3N0cmVhbXNAMC4yLjAtcmMtMjAyMy0xMS0xMC1bbWV0aG9kXW91dHB1dC1zdHJlYW0uYmxvY2tpbmctZmx1c2gWQWluZGlyZWN0LXdhc2k6Y2xpL2Vudmlyb25tZW50QDAuMi4wLXJjLTIwMjMtMTItMDUtZ2V0LWVudmlyb25tZW50FyVhZGFwdC13YXNpX3NuYXBzaG90X3ByZXZpZXcxLWZkX3dyaXRlGChhZGFwdC13YXNpX3NuYXBzaG90X3ByZXZpZXcxLWVudmlyb25fZ2V0GS5hZGFwdC13YXNpX3NuYXBzaG90X3ByZXZpZXcxLWVudmlyb25fc2l6ZXNfZ2V0GiZhZGFwdC13YXNpX3NuYXBzaG90X3ByZXZpZXcxLXByb2NfZXhpdBtLZHRvci1bZXhwb3J0XXdhc20tdmVyc2lvbi10ZXN0czpjb21wb25lbnQvY2xpZW50cy13YXNtLXZlcnNpb24tdGVzdHMtY2xpZW50HElkdG9yLVtleHBvcnRdd2FzbS12ZXJzaW9uLXRlc3RzOmNvbXBvbmVudC9ldmVudHMtd2FzbS12ZXJzaW9uLXRlc3RzLWV2ZW50');
+  const module3 = base64Compile('AGFzbQEAAAABOAlgA39/fwBgAn9/AGAEf39/fwF/YAV/f39/fwF/YAN/fn8AYAR/f39/AGABfwBgAn9/AX9gAX8AArQBHgABMAAAAAExAAEAATIAAgABMwABAAE0AAMAATUAAQABNgACAAE3AAEAATgAAQABOQABAAIxMAAEAAIxMQAFAAIxMgAGAAIxMwAEAAIxNAABAAIxNQABAAIxNgABAAIxNwABAAIxOAABAAIxOQAFAAIyMAAFAAIyMQABAAIyMgAGAAIyMwACAAIyNAAHAAIyNQAHAAIyNgAIAAIyNwAIAAIyOAAIAAgkaW1wb3J0cwFwAR0dCSMBAEEACx0AAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHAAuCXByb2R1Y2VycwEMcHJvY2Vzc2VkLWJ5AQ13aXQtY29tcG9uZW50BjAuMTguMAAcBG5hbWUAFRR3aXQtY29tcG9uZW50OmZpeHVwcw');
   ({ exports: exports0 } = await instantiateCore(await module2));
   ({ exports: exports1 } = await instantiateCore(await module0, {
     '[export]wasm-version-tests:component/clients': {
-      '[resource-new]wasm-version-tests-client': trampoline7,
+      '[resource-new]wasm-version-tests-client': trampoline0,
     },
     '[export]wasm-version-tests:component/events': {
-      '[resource-new]wasm-version-tests-event': trampoline2,
+      '[resource-new]wasm-version-tests-event': trampoline1,
     },
     'wasi:http/outgoing-handler@0.2.0-rc-2023-12-05': {
-      handle: exports0['8'],
+      handle: exports0['11'],
     },
     'wasi:http/types@0.2.0-rc-2023-12-05': {
-      '[constructor]outgoing-request': trampoline0,
-      '[method]future-incoming-response.get': exports0['7'],
-      '[method]future-incoming-response.subscribe': trampoline1,
+      '[constructor]outgoing-request': trampoline2,
+      '[method]future-incoming-response.get': exports0['9'],
+      '[method]future-incoming-response.subscribe': trampoline3,
+      '[method]incoming-body.stream': exports0['8'],
+      '[method]incoming-response.consume': exports0['7'],
       '[method]outgoing-request.authority': exports0['5'],
       '[method]outgoing-request.path-with-query': exports0['1'],
       '[method]outgoing-request.scheme': exports0['3'],
       '[method]outgoing-request.set-authority': exports0['6'],
       '[method]outgoing-request.set-path-with-query': exports0['2'],
       '[method]outgoing-request.set-scheme': exports0['4'],
-      '[resource-drop]future-incoming-response': trampoline6,
+      '[resource-drop]future-incoming-response': trampoline10,
+      '[resource-drop]incoming-body': trampoline8,
       '[static]fields.from-list': exports0['0'],
     },
+    'wasi:io/error@0.2.0-rc-2023-11-10': {
+      '[resource-drop]error': trampoline6,
+    },
     'wasi:io/poll@0.2.0-rc-2023-11-10': {
-      '[method]pollable.block': trampoline3,
-      '[method]pollable.ready': trampoline4,
-      '[resource-drop]pollable': trampoline5,
+      '[method]pollable.block': trampoline4,
+      '[method]pollable.ready': trampoline5,
+      '[resource-drop]pollable': trampoline9,
+    },
+    'wasi:io/streams@0.2.0-rc-2023-11-10': {
+      '[method]input-stream.blocking-read': exports0['10'],
+      '[resource-drop]input-stream': trampoline7,
     },
     wasi_snapshot_preview1: {
-      environ_get: exports0['21'],
-      environ_sizes_get: exports0['22'],
-      fd_write: exports0['20'],
-      proc_exit: exports0['23'],
+      environ_get: exports0['24'],
+      environ_sizes_get: exports0['25'],
+      fd_write: exports0['23'],
+      proc_exit: exports0['26'],
     },
   }));
   ({ exports: exports2 } = await instantiateCore(await module1, {
@@ -3543,41 +3687,41 @@ const $init = (async() => {
       memory: exports1.memory,
     },
     'wasi:cli/environment@0.2.0-rc-2023-12-05': {
-      'get-environment': exports0['19'],
+      'get-environment': exports0['22'],
     },
     'wasi:cli/exit@0.2.0-rc-2023-12-05': {
-      exit: trampoline13,
+      exit: trampoline14,
     },
     'wasi:cli/stderr@0.2.0-rc-2023-12-05': {
-      'get-stderr': trampoline12,
+      'get-stderr': trampoline13,
     },
     'wasi:cli/stdin@0.2.0-rc-2023-12-05': {
-      'get-stdin': trampoline14,
+      'get-stdin': trampoline15,
     },
     'wasi:cli/stdout@0.2.0-rc-2023-12-05': {
-      'get-stdout': trampoline15,
+      'get-stdout': trampoline16,
     },
     'wasi:filesystem/preopens@0.2.0-rc-2023-11-10': {
-      'get-directories': exports0['9'],
+      'get-directories': exports0['12'],
     },
     'wasi:filesystem/types@0.2.0-rc-2023-11-10': {
-      '[method]descriptor.append-via-stream': exports0['11'],
-      '[method]descriptor.get-type': exports0['12'],
-      '[method]descriptor.stat': exports0['13'],
-      '[method]descriptor.write-via-stream': exports0['10'],
-      '[resource-drop]descriptor': trampoline11,
-      'filesystem-error-code': exports0['14'],
+      '[method]descriptor.append-via-stream': exports0['14'],
+      '[method]descriptor.get-type': exports0['15'],
+      '[method]descriptor.stat': exports0['16'],
+      '[method]descriptor.write-via-stream': exports0['13'],
+      '[resource-drop]descriptor': trampoline12,
+      'filesystem-error-code': exports0['17'],
     },
     'wasi:io/error@0.2.0-rc-2023-11-10': {
-      '[resource-drop]error': trampoline8,
+      '[resource-drop]error': trampoline6,
     },
     'wasi:io/streams@0.2.0-rc-2023-11-10': {
-      '[method]output-stream.blocking-flush': exports0['18'],
-      '[method]output-stream.blocking-write-and-flush': exports0['17'],
-      '[method]output-stream.check-write': exports0['15'],
-      '[method]output-stream.write': exports0['16'],
-      '[resource-drop]input-stream': trampoline9,
-      '[resource-drop]output-stream': trampoline10,
+      '[method]output-stream.blocking-flush': exports0['21'],
+      '[method]output-stream.blocking-write-and-flush': exports0['20'],
+      '[method]output-stream.check-write': exports0['18'],
+      '[method]output-stream.write': exports0['19'],
+      '[resource-drop]input-stream': trampoline7,
+      '[resource-drop]output-stream': trampoline11,
     },
   }));
   memory0 = exports1.memory;
@@ -3586,32 +3730,35 @@ const $init = (async() => {
   ({ exports: exports3 } = await instantiateCore(await module3, {
     '': {
       $imports: exports0.$imports,
-      '0': trampoline16,
-      '1': trampoline17,
-      '10': trampoline26,
-      '11': trampoline27,
-      '12': trampoline28,
-      '13': trampoline29,
-      '14': trampoline30,
-      '15': trampoline31,
-      '16': trampoline32,
-      '17': trampoline33,
-      '18': trampoline34,
-      '19': trampoline35,
-      '2': trampoline18,
-      '20': exports2.fd_write,
-      '21': exports2.environ_get,
-      '22': exports2.environ_sizes_get,
-      '23': exports2.proc_exit,
-      '24': exports1['wasm-version-tests:component/clients#[dtor]wasm-version-tests-client'],
-      '25': exports1['wasm-version-tests:component/events#[dtor]wasm-version-tests-event'],
-      '3': trampoline19,
-      '4': trampoline20,
-      '5': trampoline21,
-      '6': trampoline22,
-      '7': trampoline23,
-      '8': trampoline24,
-      '9': trampoline25,
+      '0': trampoline17,
+      '1': trampoline18,
+      '10': trampoline27,
+      '11': trampoline28,
+      '12': trampoline29,
+      '13': trampoline30,
+      '14': trampoline31,
+      '15': trampoline32,
+      '16': trampoline33,
+      '17': trampoline34,
+      '18': trampoline35,
+      '19': trampoline36,
+      '2': trampoline19,
+      '20': trampoline37,
+      '21': trampoline38,
+      '22': trampoline39,
+      '23': exports2.fd_write,
+      '24': exports2.environ_get,
+      '25': exports2.environ_sizes_get,
+      '26': exports2.proc_exit,
+      '27': exports1['wasm-version-tests:component/clients#[dtor]wasm-version-tests-client'],
+      '28': exports1['wasm-version-tests:component/events#[dtor]wasm-version-tests-event'],
+      '3': trampoline20,
+      '4': trampoline21,
+      '5': trampoline22,
+      '6': trampoline23,
+      '7': trampoline24,
+      '8': trampoline25,
+      '9': trampoline26,
     },
   }));
   postReturn0 = exports1['cabi_post_wasm-version-tests:component/clients#[method]wasm-version-tests-client.hello-world'];
