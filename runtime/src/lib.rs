@@ -67,7 +67,7 @@ impl GuestWasmVersionTestsEvent for WasmVersionTestsEvents {
         while let Ok(mut stream_bytes) = body_stream.blocking_read(u64::MAX) {
             full_bytes.append(stream_bytes.as_mut())
         }
-        println!("BODY BYTES: {:#?}", full_bytes);
+        println!("BODY BYTES: {:?}", full_bytes);
         println!("BODY STR: {:#?}", std::str::from_utf8(&full_bytes).unwrap());
 
         // let body_fut = IncomingBody::finish(body);

@@ -181,20 +181,8 @@ export interface ErrorCodeInternalError {
 }
 export type Result<T, E> = { tag: 'ok', val: T } | { tag: 'err', val: E };
 
-export class IncomingBody {
-  stream(): InputStream;
-}
-
-export class FutureIncomingResponse {
-  subscribe(): Pollable;
-  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
-}
-
-export class IncomingResponse {
-  consume(): IncomingBody;
-}
-
-export class RequestOptions {
+export class Fields {
+  static fromList(entries: [FieldKey, FieldValue][]): Fields;
 }
 
 export class OutgoingRequest {
@@ -207,6 +195,18 @@ export class OutgoingRequest {
   setAuthority(authority: string | undefined): void;
 }
 
-export class Fields {
-  static fromList(entries: [FieldKey, FieldValue][]): Fields;
+export class FutureIncomingResponse {
+  subscribe(): Pollable;
+  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
+}
+
+export class IncomingResponse {
+  consume(): IncomingBody;
+}
+
+export class IncomingBody {
+  stream(): InputStream;
+}
+
+export class RequestOptions {
 }
