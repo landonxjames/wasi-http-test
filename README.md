@@ -15,6 +15,7 @@ use wasi::http::types::{
 ```
 
 - We then use the `wasi:http` library to construct an `OutgoingRequest`, send it, block the thread awaiting the response using a `Pollable` subscribed to via the `FutureIncomingResponse`, and then parse out the body of the response.
+- Add `"@bytecodealliance/preview2-shim"` to our `package.json` as a dependency so `jco` can access its wasi shims.
 
 To execute the code run:
 
