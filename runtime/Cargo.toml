@@ -1,5 +1,5 @@
 [package]
-name = "wasm_version_tests"
+name = "wasi_http_tests"
 version = "0.0.1"
 edition = "2021"
 

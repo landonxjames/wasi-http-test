@@ -1,1 +1,0 @@
-/Volumes/workplace/wasmVersionTests/runtime-no-resources/target/wasm32-unknown-unknown/release/wasm_version_tests_no_resources.wasm: /Volumes/workplace/wasmVersionTests/runtime-no-resources/src/lib.rs /Volumes/workplace/wasmVersionTests/runtime-no-resources/wit/component.wit

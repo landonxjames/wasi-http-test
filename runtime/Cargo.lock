@@ -176,6 +176,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f962df74c8c05a667b5ee8bcf162993134c104e96440b663c8daa176dc772d8c"
 
 [[package]]
+name = "wasi_http_tests"
+version = "0.0.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "wasm-encoder"
 version = "0.38.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -198,15 +207,6 @@ dependencies = [
  "spdx",
  "wasm-encoder",
  "wasmparser",
-]
-
-[[package]]
-name = "wasm_version_tests"
-version = "0.0.1"
-dependencies = [
- "serde",
- "serde_json",
- "wit-bindgen",
 ]
 
 [[package]]

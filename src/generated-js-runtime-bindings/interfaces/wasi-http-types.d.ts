@@ -181,6 +181,11 @@ export interface ErrorCodeInternalError {
 }
 export type Result<T, E> = { tag: 'ok', val: T } | { tag: 'err', val: E };
 
+export class FutureIncomingResponse {
+  subscribe(): Pollable;
+  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
+}
+
 export class Fields {
   static fromList(entries: [FieldKey, FieldValue][]): Fields;
 }
@@ -193,11 +198,6 @@ export class OutgoingRequest {
   setScheme(scheme: Scheme | undefined): void;
   authority(): string | undefined;
   setAuthority(authority: string | undefined): void;
-}
-
-export class FutureIncomingResponse {
-  subscribe(): Pollable;
-  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
 }
 
 export class IncomingResponse {

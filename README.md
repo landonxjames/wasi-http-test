@@ -1,25 +1,17 @@
-This is a quick test of the version to version stability of [wasmtime-py](https://pypi.org/project/wasmtime/) and [jco](https://www.npmjs.com/package/@bytecodealliance/jco). This is achieved by taking a single wit definition, building its bindings with each version of the dependencies, and then running simple tests against them to confirm that there are not practical changes.
+This is a quick proof of concept getting the `wasi:http` functionality working.
 
-## JCO
+The main things required to get this to work:
 
-`jco` is tested from version 12 forward (12 is the first version to support `wit`'s `resource` types). The Rust implementing the wasm can be found in the `runtime/` directory.
+- Save the `wasi_snapshot_preview1.reactor.wasm` binary into the `runtime/` dir and then use it with the `--adapt` param of `wasm-tools component new` to include the wasi preview1 functionality into my binary. The pre-build binary was sourced from [a tagged wasmtime release (16.0.0).](https://github.com/bytecodealliance/wasmtime/releases/tag/v16.0.0)
+- Include all necessary `wasi:*` wit files in the `runtime/wit/deps` directory. These were sourced from the [`wasi-http` GH repo](https://github.com/WebAssembly/wasi-http) and the `wasi:http` specific ones had `package wasi:http@0.2.0-rc-2023-12-05;` added at the top of each to make them easily referenceable.
+- We add a `import wasi:http/outgoing-handler@0.2.0-rc-2023-12-05;` statement to the world so that the Rust parts of the `wasi:http` library are generated and we can reference them like:
 
-These tests can be run by executing the following commands:
-
+```rust
+use wasi::http::outgoing_handler::handle;
+use wasi::http::types::{
+    ErrorCode, Fields, FutureIncomingResponse, IncomingBody, IncomingResponse, OutgoingRequest,
+    RequestOptions, Scheme,
+};
 ```
-npm install && \
-npm run build && \
-npx tsx ./jcoVersionTest.ts
-```
 
-## Wasmtime-py
-
-`wasmtime-py` is tested from version 12 forward, but since no versions yet support `resource` types it is tested against the Rust code from `runtime-no-resources/`
-
-These tests can be run by executing the following commands:
-
-```
-npm install && \
-npm run build-no-resources && \
-npx tsx ./wasmtimeVersionTest.ts
-```
+- We then use the `wasi:http` library to construct an `OutgoingRequest`, send it, block the thread awaiting the response using a `Pollable` subscribed to via the `FutureIncomingResponse`, and then parse out the body of the response.
