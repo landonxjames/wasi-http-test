@@ -15,3 +15,9 @@ use wasi::http::types::{
 ```
 
 - We then use the `wasi:http` library to construct an `OutgoingRequest`, send it, block the thread awaiting the response using a `Pollable` subscribed to via the `FutureIncomingResponse`, and then parse out the body of the response.
+
+To execute the code run:
+
+```sh
+npm run build && npm run test
+```
