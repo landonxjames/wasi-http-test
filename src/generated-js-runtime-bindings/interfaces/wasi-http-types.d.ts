@@ -181,13 +181,12 @@ export interface ErrorCodeInternalError {
 }
 export type Result<T, E> = { tag: 'ok', val: T } | { tag: 'err', val: E };
 
-export class FutureIncomingResponse {
-  subscribe(): Pollable;
-  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
-}
-
 export class Fields {
   static fromList(entries: [FieldKey, FieldValue][]): Fields;
+}
+
+export class IncomingBody {
+  stream(): InputStream;
 }
 
 export class OutgoingRequest {
@@ -204,8 +203,9 @@ export class IncomingResponse {
   consume(): IncomingBody;
 }
 
-export class IncomingBody {
-  stream(): InputStream;
+export class FutureIncomingResponse {
+  subscribe(): Pollable;
+  get(): Result<Result<IncomingResponse, ErrorCode>, void> | undefined;
 }
 
 export class RequestOptions {
