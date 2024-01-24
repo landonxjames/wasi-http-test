@@ -20,12 +20,15 @@ use wasi::http::types::{
 pub struct WasiHttpTestsClient;
 
 impl GuestWasiHttpTestsClient for WasiHttpTestsClient {
-    fn http_call(&self) -> Result<String, String> {
+    fn http_call(&self, sleep: u16) -> Result<String, String> {
         //Below section is building the http request and then printing it
-        let headers = Fields::from_list(&vec![]).map_err(|e| e.to_string())?;
+        let accept_value = "application/json".as_bytes().to_vec();
+        let headers = Fields::from_list(&vec![("Accept".to_string(), accept_value)])
+            .map_err(|e| e.to_string())?;
         let req = OutgoingRequest::new(headers);
-        req.set_authority(Some("httpbin.org"));
-        req.set_path_with_query(Some("/get"));
+        //httpstat.us/200?sleep=5000
+        req.set_authority(Some("httpstat.us"));
+        req.set_path_with_query(Some(&format!("/200?sleep={}", sleep)));
         req.set_scheme(Some(&Scheme::Https));
         println!("REQUEST:",);
         println!("AUTHORITY: {:?}", req.authority());

@@ -2891,7 +2891,7 @@ class WasiHttpTestsClient{
   }
 }
 
-WasiHttpTestsClient.prototype.httpCall = function httpCall() {
+WasiHttpTestsClient.prototype.httpCall = function httpCall(arg1) {
   var handle0 = this[resourceHandleSymbol];
   if (handle0=== null) {
     throw new Error('Resource error: "WasiHttpTestsClient" lifetime expired.');
@@ -2900,7 +2900,7 @@ WasiHttpTestsClient.prototype.httpCall = function httpCall() {
     throw new Error('Resource error: Not a valid "WasiHttpTestsClient" resource.');
   }
   
-  const ret = exports1['wasi-http-tests:component/client#[method]wasi-http-tests-client.http-call'](handle0);
+  const ret = exports1['wasi-http-tests:component/client#[method]wasi-http-tests-client.http-call'](handle0, toUint16(arg1));
   if (handleTable11.get(handle0)) {
     throw new Error('Resource error: borrows were not dropped');
   }

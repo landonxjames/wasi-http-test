@@ -13,13 +13,13 @@ export interface StreamErrorClosed {
   tag: 'closed',
 }
 
+export class InputStream {
+  blockingRead(len: bigint): Uint8Array;
+}
+
 export class OutputStream {
   checkWrite(): bigint;
   write(contents: Uint8Array): void;
   blockingWriteAndFlush(contents: Uint8Array): void;
   blockingFlush(): void;
-}
-
-export class InputStream {
-  blockingRead(len: bigint): Uint8Array;
 }

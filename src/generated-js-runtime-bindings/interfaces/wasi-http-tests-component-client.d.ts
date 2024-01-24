@@ -4,5 +4,5 @@ export namespace WasiHttpTestsComponentClient {
 
 export class WasiHttpTestsClient {
   constructor()
-  httpCall(): string;
+  httpCall(sleep: number): string;
 }

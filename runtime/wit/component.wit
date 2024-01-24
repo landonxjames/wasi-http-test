@@ -5,7 +5,7 @@ interface client {
   //If you are creating new clients implement them inside of this interface
   resource wasi-http-tests-client {
     constructor();
-    http-call: func() -> result<string, string>;
+    http-call: func(sleep: u16) -> result<string, string>;
   }
 }
 
