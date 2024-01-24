@@ -17,6 +17,7 @@ describe("Component runtime functions", async () => {
     const [proxyReturnRaw1, proxyReturnRaw2] = await Promise.all([
       proxy.httpCall(5000),
       proxy2.httpCall(5000),
+      // sleepThenReturn(3000),
     ]);
     const elapsed = Date.now() - start;
     console.log(
@@ -57,4 +58,10 @@ const createProxy = <T extends Object>(client: T) => {
       return value;
     },
   });
+};
+
+const sleepWrapper = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const sleepThenReturn = async (sleep: number): Promise<string> => {
+  await sleepWrapper(sleep);
+  return "FOOBAR";
 };
