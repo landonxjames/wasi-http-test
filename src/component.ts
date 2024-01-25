@@ -1,13 +1,5 @@
-import { IncomingMessage } from "http";
 import { client } from "./generated-js-runtime-bindings/wasi_http_tests_component.js";
-import type { WasiHttpTestsClient } from "./generated-js-runtime-bindings/interfaces/wasi-http-tests-component-client.js";
-import { describe, test, expect } from "vitest";
-import {
-  Worker,
-  isMainThread,
-  parentPort,
-  workerData,
-} from "node:worker_threads";
+import { Worker } from "node:worker_threads";
 
 type WorkerInput = {
   moduleName: string;
@@ -17,7 +9,7 @@ type WorkerInput = {
   args: any[];
 };
 
-//Util to create a worker
+//Util to create an awaitable worker
 const workerCreator = async (options: WorkerInput) => {
   console.log("WORKER CREATOR RUNNING");
   const workerFuncText = `(${workerFunction.toString()})()`;
@@ -51,15 +43,13 @@ const workerFunction = async () => {
   const { moduleName, interfaceName, resourceName, functionName, args } =
     workerData as WorkerInput;
 
-  console.log("WORKER DATA:", workerData);
-
+  //Dynamically load the jco generated module
   const wasmModule = await import(moduleName);
 
-  console.log("WASM MODULE:", wasmModule);
-
+  //Extract the interface from the module
+  //In practice this will probably always be "clients" because I doubt we want
+  //to allow event parsing to be async
   const wasmExport = wasmModule[interfaceName];
-
-  console.log("WASM EXPORT:", wasmExport);
 
   //TODO: need a way to capture params passed to the wit Resource/js Class
   //to instantiate it so we can instantiate it again here
@@ -67,10 +57,10 @@ const workerFunction = async () => {
   //Class instantiation and also proxy the object returned by the constructor?
   const wasmResource = new wasmExport[resourceName]();
 
-  console.log(wasmResource);
-
+  //Actually call the function (synchronously)
   const data = wasmResource[functionName](...args);
 
+  //Send the raw return from the function back to the main thread
   parentPort!.postMessage(data);
 };
 
@@ -88,6 +78,8 @@ const sleepThenReturn = async (sleep: number): Promise<string> => {
 //the instantiated class that is passed in
 const createProxy = <T extends Object>(
   client: T,
+  //TODO: Figure out if theres a dynamic way to infer these values from the
+  //passed in client
   opts: { moduleName: string; interfaceName: string }
 ) => {
   return new Proxy(client, {
@@ -98,13 +90,12 @@ const createProxy = <T extends Object>(
 
       if (value instanceof Function && prop === "httpCall") {
         function wrapper() {
-          const args = arguments;
           return workerCreator({
             moduleName: opts.moduleName,
             interfaceName: opts.interfaceName,
             resourceName: client.constructor.name,
             functionName: prop as string,
-            args: [...args],
+            args: [...arguments],
           });
         }
         return wrapper;
@@ -118,6 +109,8 @@ const createProxy = <T extends Object>(
 const wasmClient = new client.WasiHttpTestsClient();
 
 //This proxied client is what we would actually return to users
+//The moduleName had to be an absolute path, but I think that was because
+//I was running this via tsx, will hopefully work with normal import path otherwise
 const proxiedClient = createProxy(wasmClient, {
   moduleName:
     "/Volumes/workplace/wasi-http-test/src/generated-js-runtime-bindings/wasi_http_tests_component.js",
