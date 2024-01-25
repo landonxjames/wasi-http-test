@@ -12,9 +12,12 @@ type WorkerInput = {
 //Util to create an awaitable worker
 const workerCreator = async (options: WorkerInput) => {
   console.log("WORKER CREATOR RUNNING");
+  //Wrap the worker func in an IIFE
   const workerFuncText = `(${workerFunction.toString()})()`;
   console.log("WORKER TEXT:", workerFuncText);
   return new Promise(function (resolve, reject) {
+    //TODO: It might be worth using some kind of worker pool here
+    //instead of spinning up a new one each time
     const worker = new Worker(workerFuncText, {
       eval: true,
       workerData: { ...options },
