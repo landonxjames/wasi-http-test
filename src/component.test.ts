@@ -41,28 +41,40 @@ describe("Component runtime functions", async () => {
   //   expect(proxyReturn2.description).toBe("OK");
   // });
 
-  test("worker test", async () => {
-    const testClient = new client.WasiHttpTestsClient();
-    const proxy = createWorkerProxy(testClient);
+  // test("worker test 1", async () => {
+  //   const testClient = new client.WasiHttpTestsClient();
+  //   const proxy = createWorkerProxy(testClient);
 
-    //This Promise.all will last approx as long as the longest of the two
-    //times passed to the functions below
-    const start = Date.now();
-    const [proxyReturnRaw1, sleepReturn] = await Promise.all([
-      proxy.httpCall(4000),
-      sleepThenReturn(2000),
-    ]);
-    const elapsed = Date.now() - start;
-    console.log(
-      `seconds elapsed during http call = ${Math.floor(elapsed / 1000)}`
-    );
+  //   //This Promise.all will last approx as long as the longest of the two
+  //   //times passed to the functions below
+  //   const start = Date.now();
+  //   const [proxyReturnRaw1, sleepReturn] = await Promise.all([
+  //     proxy.httpCall(4000),
+  //     sleepThenReturn(2000),
+  //   ]);
+  //   const elapsed = Date.now() - start;
+  //   console.log(
+  //     `seconds elapsed during http call = ${Math.floor(elapsed / 1000)}`
+  //   );
 
-    console.log("proxyReturnRaw1:", proxyReturnRaw1);
+  //   console.log("proxyReturnRaw1:", proxyReturnRaw1);
 
-    const proxyReturn1 = JSON.parse(proxyReturnRaw1);
+  //   const proxyReturn1 = JSON.parse(proxyReturnRaw1);
 
-    expect(proxyReturn1.code).toBe(200);
-    expect(proxyReturn1.description).toBe("OK");
+  //   expect(proxyReturn1.code).toBe(200);
+  //   expect(proxyReturn1.description).toBe("OK");
+  // }, 20000);
+
+  test("worker test 2", async () => {
+    const opts = {
+      moduleName:
+        "./generated-js-runtime-bindings/wasi_http_tests_component.js",
+      interfaceName: "client",
+      resourceName: "foo",
+      functionName: "bar",
+      args: [],
+    };
+    await workerCreator(opts);
   }, 20000);
 });
 
@@ -115,6 +127,7 @@ const createWorkerProxy = <T extends Object>(client: T) => {
               }
             );
             worker.on("message", (data) => {
+              // console.log("MESSAGE IN MAIN:", data);
               resolve(data);
             });
             worker.on("error", (err) => {
@@ -134,3 +147,55 @@ const sleepThenReturn = async (sleep: number): Promise<string> => {
   await sleepWrapper(sleep);
   return "FOOBAR";
 };
+
+type WorkerInput = {
+  moduleName: string;
+  interfaceName: string;
+  resourceName: string;
+  functionName: string;
+  args: any[];
+};
+
+const workerCreator = async (options: WorkerInput) => {
+  console.log("WORKER CREATOR RUNNING");
+  const workerFuncText = `(${workerFunction.toString()})()`;
+  console.log("WORKER TEXT:", workerFuncText);
+  return new Promise(function (resolve, reject) {
+    const worker = new Worker(workerFuncText, {
+      eval: true,
+      workerData: { ...options },
+    });
+    worker.on("message", (data) => {
+      console.log("MESSAGE IN MAIN:", data);
+      resolve(data);
+    });
+    worker.on("error", (err) => {
+      reject(`An error ocurred: ${err}`);
+    });
+    worker.on("online", () => {
+      console.log("WORKER ONLINE");
+    });
+  });
+};
+
+function workerFunction() {
+  console.log("WORKER THREAD RUNNING");
+  // const { Worker, isMainThread, parentPort, workerData } = await
+
+  import("node:worker_threads").then((workerMod) => {
+    const { Worker, isMainThread, parentPort, workerData } = workerMod;
+
+    parentPort!.postMessage("AHHHHHH");
+    const { moduleName, interfaceName, resourceName, functionName, args } =
+      workerData as WorkerInput;
+  });
+
+  // const { moduleName, interfaceName, resourceName, functionName, args } =
+  //   workerData as WorkerInput;
+
+  // const wasmModule = await import(moduleName);
+
+  // console.log("wasmModule in func:", wasmModule);
+
+  // parentPort!.postMessage("AHHHHHH");
+}
